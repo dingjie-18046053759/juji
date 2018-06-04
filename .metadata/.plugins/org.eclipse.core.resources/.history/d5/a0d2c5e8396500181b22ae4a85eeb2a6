@@ -1,0 +1,47 @@
+package com.fmcq.util;
+
+import javax.annotation.Resource;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import com.fmcq.entity.Client;
+import com.fmcq.entity.DtuInfo;
+import com.fmcq.service.IClientService;
+
+public class Job2Demo {
+	@Resource
+	private IClientService clientService;
+	 /**  
+     * 业务逻辑处理  
+     */  
+    public void sayHello() {
+//    	String url = "http://api.cellocation.com:81/cell/?mcc=460&mnc=0&lac=22815&ci=12582&output=xml";
+//    	String result = HttpRequestUtil.HttpRequest(url);
+//    	System.out.println("result等于==========="+result);
+    }  
+    
+    public static String getAdd(String log, String lat ){    
+        //lat 小  log  大    
+        //参数解释: 纬度,经度 type 001 (100代表道路，010代表POI，001代表门址，111可以同时显示前三项)   
+        String urlString = "http://gc.ditu.aliyun.com/regeocoding?l="+lat+","+log+"&type=010";    
+        String res = "";       
+        try {       
+            URL url = new URL(urlString);      
+            java.net.HttpURLConnection conn = (java.net.HttpURLConnection)url.openConnection();      
+            conn.setDoOutput(true);      
+            conn.setRequestMethod("POST");      
+            java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(conn.getInputStream(),"UTF-8"));      
+            String line;      
+           while ((line = in.readLine()) != null) {      
+               res += line+"\n";      
+         }      
+            in.close();      
+        } catch (Exception e) {      
+            System.out.println("error in wapaction,and e is " + e.getMessage());      
+        }     
+        System.out.println(res);    
+        return res;      
+    }    
+}

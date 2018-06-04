@@ -1,0 +1,164 @@
+
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1501676037170'); /* IE9*/
+  src: url('iconfont.eot?t=1501676037170#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1501676037170') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1501676037170') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1501676037170#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*{
+	box-sizing: border-box;
+}
+input:focus, button:focus{
+	outline: none;
+}
+body{
+	margin: 0;
+}
+.login{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.login .login-bg{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+.login .login-bg .bg-top{
+	width: 100%;
+	height: 50%;
+	background: #fed136;
+	text-align: center;
+}
+.login .login-bg .bg-top .logo{
+	width: 42%;
+	margin-top: 38px;
+}
+.login .login-bg .bg-bottom{
+	width: 100%;
+	height: 50%;
+	background: #000;
+}
+.login-box{
+	width: 96%;
+	background: #fff;
+	overflow: hidden;
+	padding: 28px 18px;
+	position: absolute;
+	left: 2%;
+	top: 26%;
+	box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+.login-box .login-input{
+	width: 100%;
+	height: 52px;
+	background: #f4f4f4;
+	overflow: hidden;
+	margin-bottom: 20px;
+	overflow: hidden;
+	position: relative;
+}
+.login-box .login-input .right-btn{
+	background: none;
+	color: #000;
+	font-size: 16px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	border: none;
+	width: auto;
+	height: 100%;
+}
+.login-box .login-input .iconfont{
+	font-size: 19px;
+	line-height: 52px;
+	padding: 0 28px;
+	color: #737d77;
+	float: left;
+	display: inline-block;
+}
+.login-box .login-input>input{
+	width: auto;
+	height: 100%;
+	color: #333333;
+	font-size: 18px;
+	padding: 17px 0;
+	line-height: 18px;
+	float: left;
+	background: none;
+	border: none;
+	display: inline-block;
+}
+.rember-box{
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.rember-box .opera{
+	color: #333;
+	font-size: 18px;
+	line-height: 20px;
+	vertical-align: middle;
+}
+.rember-box .opera .switch{
+	display: inline-block;
+	width: 44px;
+	height: 20px;
+	border-radius: 10px;
+	background: #f4f4f4;
+	vertical-align: middle;
+	margin-left: 10px;
+	position: relative;
+	transition: background 0.5s;
+	-moz-transition: background 0.5s;
+	-webkit-transition: background 0.5s;
+	-o-transition: background 0.5s;
+}
+.rember-box .opera .switch .switch-cir{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 1px #aaa;
+	position: absolute;
+	left: 2px;
+	top: 2px;
+	transition: left 0.5s;
+	-moz-transition: left 0.5s;
+	-webkit-transition: left 0.5s;
+	-o-transition: left 0.5s;
+}
+.rember-box .opera .switch.active{
+	background: #fed136!important;
+}
+.rember-box .opera .switch.active .switch-cir{
+	left: 26px!important;
+}
+.rember-box .pull-left{
+	float: left;
+}
+.rember-box .pull-right{
+	float: right;
+}
+.login-box .sublime-btn{
+	width: 100%;
+	height: 52px;
+	border: none;
+	background: #fed136;
+	font-size: 20px;
+	color: #000;
+}

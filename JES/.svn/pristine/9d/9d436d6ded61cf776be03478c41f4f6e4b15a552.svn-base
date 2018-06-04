@@ -1,0 +1,4 @@
+db.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+db.url=jdbc:sqlserver://121.43.164.71:1433;DatabaseName=JES
+db.username=jes
+db.password=123456

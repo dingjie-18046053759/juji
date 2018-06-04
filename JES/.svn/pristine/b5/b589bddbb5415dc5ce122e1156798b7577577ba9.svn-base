@@ -1,0 +1,65 @@
+/* 选择科室 */
+.cdept_box{ width:100%; background:#fff; position:fixed; height:100%; left:0px; z-index:550;}
+.cdept_box li{ line-height:45px;}
+.cdept_box li a{ display:block; width:100%; padding:0 30px 0 15px; position:relative; border-bottom:1px solid #f2f2f2; color:#333; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
+.cdept_box li a.hit{ background:#fafafa; color:#00a1d8;}
+.cdept_box li a .cdeptjt{ position:absolute; width:8px; height:13px; top:16px; right:15px; background-position:-1px -1px;}
+.cdsec_box{ width:55%; position:fixed; right:-60%; background:#fafafa; height:100%;}
+.cdsec_box li{ line-height:45px; padding:0 15px;}
+.cdsec_box li a{ display:block; border-bottom:1px solid #f2f2f2; color:#262626; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
+.cdsec_box li a.hit{ color:#00a1d8;}
+.dintro_top{ padding:10px 15px; background:#fff; line-height:25px;}
+.dintro_bor{ border-bottom:1px solid #f2f2f2;}
+.rocon{ padding:5px 0 10px 0; display:block;}
+/* 楼层分布 */
+.floor_img{ text-align:center; background:#fff;}
+.floor_img img{ max-width:640px; vertical-align:bottom;}
+.floor_list{ width:100%;}
+.floor_list li{ line-height:45px; background:#fff; border-bottom:1px solid #f2f2f2;}
+.floor_list li:last-child{ border-bottom:1px solid #e1e1e1;}
+.floor_list li a{ display:block; line-height:45px; line-height:45px; position:relative; padding:0 15px;}
+.floor_det li{ display:block; width:100%; padding:12px 15px 12px 75px; position:relative; background:#fff; line-height:21px; color:#909090; word-break:break-all; border-top:1px solid #f2f2f2; font-size:14px;}
+.floor_det li:first-child{ border-top:none;}
+.floor_det li .flnum{ position:absolute; left:15px; top:12px; font-size:15px;}
+/* 演示医院 */
+.hosm_top{ width:100%;}
+.hosm_top img{ vertical-align:bottom; max-height:300px;}
+.hosm_mess{ width:100%;}
+.hosm_mess li{ display:block; width:100%; min-height:45px; padding:12px 15px 12px 115px; position:relative; background:#fff; line-height:21px; color:#909090; word-break:break-all; border-bottom:1px solid #f2f2f2; font-size:14px;}
+.hosm_mess li:last-child{ border-bottom:1px solid #e1e1e1;}
+.hosm_mess li.tointro{ padding:12px 35px 12px 115px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.hmtit{ position:absolute; left:15px; top:12px; font-size:15px;}
+.hmtit i{ display:inline-block; width:18px; height:20px; vertical-align:middle; margin:0 5px 1px 0;}
+.itb1{ background-position:-1px -175px;}
+.itb2{ background-position:-22px -175px;}
+.itb3{ background-position:-46px -175px;}
+.itb4{ background-position:-67px -175px;}
+.itb5{ background-position:-93px -175px;}
+/* 科室搜索 */
+.dserhold{ height:46px;}
+.dserdiv{ width:100%; height:45px; border-bottom:1px solid #e1e1e1; background:#fff; position:fixed; left:0; top:0; z-index:800;}
+.dserbox{ height:30px; line-height:30px; margin:7px 15px 0 15px; background:#eee; color:#999;}
+.dserbox i{ display:inline-block; width:15px; height:15px; background-position:-235px -1px; vertical-align:middle; margin:0 10px 3px 10px;}
+.srpage{ padding-right:45px;}
+.srpage a{ display:block; position:absolute; right:15px; top:7px; line-height:30px;}
+.serinput{ display:block; width:100%; height:30px; line-height:30px; border:none; padding:0 10px 0 30px; background-position:-228px 7px; color:#5b5b5b;}
+.serhis li{ line-height:45px; background:#fff; padding:0 15px; border-bottom:1px solid #f2f2f2; position:relative;}
+.serhis li:last-child{ border-bottom:1px solid #e1e1e1;}
+.serhis li .shmess{ display:block; width:100%;}
+.serhis li .shmess i.ihis{ display:inline-block; width:13px; height:13px; background-position:-116px -136px; vertical-align:middle; margin:0 10px 4px 0;}
+.serhis li .shmess i.irul{ display:inline-block; width:13px; height:13px; background-position:-236px -24px; vertical-align:middle; margin:0 10px 4px 0;}
+.serhis li a.idel{ display:block; width:40px; height:40px; background-position:-130px -122px; position:absolute; right:3px; top:2px;}
+.serbot{ display:block; text-align:center; padding:10px 0;}
+.serbot a{ color:#333; font-size:14px; line-height:23px;}
+.serbot .deltb{ display:inline-block; width:15px; height:15px; background-position:-176px -136px; vertical-align:middle; margin:0 10px 4px 0;}
+.serbot .sertb{ display:inline-block; width:15px; height:15px; background-position:-235px -1px; vertical-align:middle; margin:0 10px 4px 0;}
+/* 新闻动态 */
+.h40{ height:40px;}
+.nlablist{ width:100%; height:40px; position:fixed; left:0; top:0; z-index:600;}
+.c-lab-mor{ display:-webkit-box; display:box; overflow:hidden; background:#fff;}
+.c-lab-mor li{ -webkit-box-flex:1; box-flex:1; height:40px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -o-box-sizing:border-box; text-align:center; padding-top:8px; border-bottom:1px solid #e1e1e1;}
+.c-lab-mor li:first-child{ border-left:none;}
+.c-lab-mor li a{ display:block; width:100%; height:22px; line-height:22px; color:#333; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -o-box-sizing:border-box; border-left:1px solid #ddd;}
+.c-lab-mor li:first-child a{ border-left:none;}
+.c-lab-mor li.hit{ border-bottom:3px solid #37a6eb;}
+.c-lab-mor li.hit a{ color:#37a6eb;}

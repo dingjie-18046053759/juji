@@ -1,0 +1,61 @@
+package com.fmcq.util;
+
+import javax.annotation.Resource;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import com.fmcq.entity.Client;
+import com.fmcq.entity.DtuInfo;
+import com.fmcq.service.IClientService;
+
+public class TimedTask {
+	@Resource
+	private IClientService clientService;
+	 /**  
+     * 业务逻辑处理  
+     */  
+    public void execute() {  
+        // 执行业务逻辑  
+        // ........  
+        System.out.println("定时任务.......");
+        List<DtuInfo> list = clientService.getDtuInfo();
+        System.out.println("dtu数量"+list.size());
+        for(DtuInfo dtu:list){
+        	String sn = dtu.getSn();
+        	int status = dtu.getStatus();        
+        	if(status == 0){
+        		status = 3;
+        	}
+        	//根据sn查询client
+        	Client client = clientService.findClientBysn(sn);
+        	//如果client已存在，则更新
+        	if(null!=client&&!"".equals(client)){
+        		System.out.println("更新");
+        		client.setState(status);
+        		clientService.updateClient(client);
+        	}else{//如果该DTU信息在Client表中不存在，则插入
+        		System.out.println("插入");
+        		Client cc = new Client();
+        		cc.setId(Integer.parseInt(sn));
+        		cc.setName(sn);
+        		cc.setNumber(sn);
+        		cc.setType("发电机组");
+        		cc.setControllermodel("凯讯GU641A");
+        		cc.setArea("福州");
+        		cc.setSn(sn);
+        		cc.setSim("15981918745");
+        		cc.setState(status);
+        		cc.setIp("");
+        		cc.setTime(dtu.getUpdate_time());
+        		if(!"".equals(dtu.getLat())&&null!=dtu.getLat()))
+        		cc.setLatitude(dtu.getLat());
+        		cc.setLongitude(dtu.getLon());
+        		clientService.saveClient(cc);
+        	}
+        	
+        }
+        
+    }  
+}

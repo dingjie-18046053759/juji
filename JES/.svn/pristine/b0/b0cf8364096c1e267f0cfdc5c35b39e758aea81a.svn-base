@@ -1,0 +1,89 @@
+package com.fmcq.util;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Iterator;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+public class HttpRequestUtil {
+	public static void main(String[] args) {
+		String url ="https://api.weixin.qq.com/cgi-bin/user/get?access_token=pESM5CDHiY96v8actIQ3MYd6vxvcyYp4GyfjCb0j5McRL9P2tc771A4bA1IlT_NDg3TNP58KqcGGpX6L_eqwzxaPiUeZYU5AWiS5zGvUCp0";
+		String jsonstr = HttpRequest(url);
+		System.out.println(jsonstr);
+		JSONArray jsonArr = JSONArray.fromObject(jsonstr);
+		for(int i=0;i<jsonArr.size();i++){
+		     JSONObject jsonObject = jsonArr.getJSONObject(i);
+		     for (Iterator<?> iter = jsonObject.keys(); iter.hasNext();)
+	            {
+	                String key = (String) iter.next();
+	                String value = jsonObject.get(key).toString();
+	                System.out.println(value);
+	            }
+		}
+	}
+	 
+    /**
+     * 从url请求中获得返回的字符串
+     *
+     * @param requestUrl
+     * @return <a href="https://www.baidu.com/s?wd=JSON&tn=44039180_cpr&fenlei=mv6quAkxTZn0IZRqIHckPjm4nH00T1Y1PWmzmv7BmWn4m1bYuhm40ZwV5Hcvrjm3rH6sPfKWUMw85HfYnjn4nH6sgvPsT6K1TL0qnfK1TL0z5HD0IgF_5y9YIZ0lQzqlpA-bmyt8mh7GuZR8mvqVQL7dugPYpyq8Q1b1PWc3PW0Yn1RzPHTznH6dn6" target="_blank" class="baidu-highlight">JSON</a>字符串
+     */
+    public static String HttpRequest(String requestUrl) {
+        StringBuffer sb = new StringBuffer();
+        InputStream ips = getInputStream(requestUrl);
+        InputStreamReader isreader = null;
+        try {
+            isreader = new InputStreamReader(ips, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        BufferedReader bufferedReader = new BufferedReader(isreader);
+        String temp = null;
+        try {
+            while ((temp = bufferedReader.readLine()) != null) {
+                sb.append(temp);
+            }
+            bufferedReader.close();
+            isreader.close();
+            ips.close();
+            ips = null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+ 
+    /**
+     * 从请求的URL中获取返回的流数据
+     * @param requestUrl
+     * @return InputStream
+     */
+    private static InputStream getInputStream(String requestUrl) {
+        URL url = null;
+        HttpURLConnection conn = null;
+        InputStream in = null;
+        try {
+            url = new URL(requestUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoInput(true);
+            conn.setRequestMethod("GET");
+            conn.connect();
+ 
+            in = conn.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return in;
+    }
+     
+}

@@ -1,0 +1,15 @@
+package test.demo;
+
+public class test {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		String s = "<d>1234456</d>";
+		System.out.println(s.substring(s.indexOf("<d>")+3, s.indexOf("</d>")));
+		
+
+	}
+
+}

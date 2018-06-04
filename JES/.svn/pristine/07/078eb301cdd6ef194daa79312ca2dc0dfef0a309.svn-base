@@ -1,0 +1,264 @@
+package com.fmcq.controller;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fmcq.entity.Client;
+import com.fmcq.service.IClientService;
+import com.fmcq.util.Comm;
+import com.google.gson.Gson;
+
+
+@Controller
+@RequestMapping("/client")
+public class ClientController extends BaseController {
+	private static Log log = LogFactory.getLog(ClientController.class);
+	
+	@Resource
+	private IClientService clientService;
+	
+	/**
+	 * 获取设备集合
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("/findClientList.do")
+	public String findClientList(String uid){
+		log.info("获取设备集合 start");
+		
+		List<Object[]> list= clientService.findClientList(uid);
+		
+		request.setAttribute("list", list);
+		request.setAttribute("msg", "ok");
+		request.setAttribute("uid", uid);
+		log.info("获取设备集合 end");
+		return "/jsp/genware";
+	}
+	
+	/**
+	 * 获取设备信息
+	 * @return
+	 * @throws IOException 
+	 * @throws Exception 
+	 */
+	@RequestMapping("/findClient.do")
+	public String findClient(String id, String uid) throws IOException{
+		log.info("获取设备信息 start");
+		Client client = clientService.findClient(id);
+		Map<String, Object> rmap = findTxt(id, client);
+		List<String[]> cmds = null;
+		Map<String, Object> map = null;
+		if(rmap == null){
+			cmds = clientService.findCmdList(client.getControllermodel());
+			map = clientService.findClientInfo(id);
+		}else{
+			cmds = (List<String[]>) rmap.get("cmds");
+			map = (Map<String, Object>) rmap.get("map");
+		}
+		
+		request.setAttribute("map", map);
+		request.setAttribute("client", client);
+		request.setAttribute("id", id);
+		request.setAttribute("uid", uid);
+		request.setAttribute("cmds", cmds);
+		log.info("获取设备信息 end");
+		return "/jsp/basic";
+	}
+	
+	/**
+	 * ajax获取设备信息
+	 * @param json
+	 * @throws IOException
+	 */
+	@RequestMapping("/ajaxFindClient.do")
+	@ResponseBody
+	public void ajaxFindClient(String id) throws IOException{
+		log.info("ajax获取设备信息 start");
+		Client client = clientService.findClient(id);
+		List<String[]> cmds = clientService.findCmdList(client.getControllermodel());
+		Map<String, Object> map = clientService.findClientInfo(id);
+		request.setAttribute("map", map);
+		request.setAttribute("client", client);
+		request.setAttribute("cmds", cmds);
+		
+		Map<String, Object> rm = new HashMap<String, Object>();
+		rm.put("map", map);
+		rm.put("client", client);
+		rm.put("cmds", cmds);
+		
+		Gson g = new Gson();
+		String json = g.toJson(rm);
+		log.info("ajax获取设备信息 end");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().print(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
+	/**
+	 * ajax获取设备信息
+	 * @param json
+	 * @throws IOException
+	 */
+	@RequestMapping("/ajaxFindClientTxt.do")
+	@ResponseBody
+	public void ajaxFindClientTxt(String id) throws IOException{
+		log.info("ajax获取设备信息 start");
+		Client client = clientService.findClient(id);
+		Map<String, Object> rmap = findTxt(id, client);
+		Gson g = new Gson();
+		String json = g.toJson(rmap);
+		log.info("ajax获取设备信息 end");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().print(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
+	private Map<String, Object> findTxt(String cid, Client client) throws IOException{
+		URL url = new URL(Comm.TXT_URL+client.getSn()+".txt");  
+		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+		try {
+			InputStream inputStream = conn.getInputStream();   //通过输入流获得网站数据  
+			byte[] buffer = new byte[1024];  
+	        int len = 0;  
+	        ByteArrayOutputStream bos = new ByteArrayOutputStream();  
+	        while((len = inputStream.read(buffer)) != -1) {  
+	            bos.write(buffer, 0, len);  
+	        }  
+	          
+	        bos.close();  
+	        
+	        String data = new String(bos.toByteArray(), "gb2312");  
+	        
+	        String z1 = data.substring(data.indexOf("<data>")+6, data.indexOf("</data>"));
+	        String z2 = data.substring(data.indexOf("<cmd>")+5, data.indexOf("</cmd>"));
+	        System.out.println(z1);
+	        System.out.println(z2);
+	        
+	        System.out.println("=========");
+	        String[] ds = null;
+	        String[] ss = z1.split("&");
+	        String led = "";
+	        List<String[]> list = new ArrayList<String[]>();
+	        for (String s : ss) {
+	        	ds = s.split("=");
+				list.add(ds);
+				if("led".equals(ds[0]))
+					led = ","+ds[1]+",";
+			}
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("id", cid);
+			map.put("name", client.getName());
+			map.put("led", led);
+	        
+	        
+	        List<String[]> rList = new ArrayList<String[]>();
+	        if(z2 != null || !"".equals(z2)){
+				String[] cmds = z2.split(";");
+				String[] rcmds = null;
+				for (String cmd : cmds) {
+					rcmds = null;
+					rcmds = cmd.split(":");
+					rList.add(rcmds);
+				}
+			}
+	        
+	        Map<String, Object> rm = new HashMap<String, Object>();
+	        rm.put("map", map);
+	        rm.put("cmds", rList);
+			rm.put("client", client);
+	        return rm;
+		} catch (FileNotFoundException e) {
+			log.info("设备："+cid+"文件不存在");
+		} catch (ConnectException e2){
+			log.info("链接失败");
+		}
+		return null;
+	}
+	
+	/**
+	 * 获取设备参数
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("/findClientInfo.do")
+	public String findClientInfo(String id, String uid){
+		log.info("获取设备参数 start");
+		Map<String, Object> map = clientService.findClientInfo(id);
+		request.setAttribute("map", map);
+		request.setAttribute("uid", uid);
+		log.info("获取设备参数 end");
+		return "/jsp/detailed";
+	}
+	
+	/**
+	 * 发送指令
+	 * @param json
+	 * @throws IOException
+	 */
+	@RequestMapping("/upMission.do")
+	@ResponseBody
+	public void upMission(String uid, String sn, String cmd) throws IOException{
+		log.info("发送指令 start");
+		String json = clientService.upMission(uid, sn, cmd);
+		log.info("发送指令 end");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().print(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
+	/**
+	 * 获取指令状态
+	 * @param json
+	 * @throws IOException
+	 */
+	@RequestMapping("/findMission.do")
+	@ResponseBody
+	public void findMission(String mid) throws IOException{
+		log.info("获取指令状态 start");
+		String json = clientService.findMission(mid);
+		log.info("获取指令状态 end");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().print(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
+	/**
+	 * 修改指令状态
+	 * @param json
+	 * @throws IOException
+	 */
+	@RequestMapping("/upMissionState.do")
+	@ResponseBody
+	public void upMissionState(String mid) throws IOException{
+		log.info("修改指令状态 start");
+		clientService.upMissionState(mid);
+		log.info("修改指令状态 end");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().print("");
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+}

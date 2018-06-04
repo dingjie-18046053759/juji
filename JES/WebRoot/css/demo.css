@@ -1,0 +1,92 @@
+.c37acf4{ color:#37acf4;}
+.index_top{ width:100%; position:relative; overflow:hidden;}
+.index_top .bd li{ float:left; display:block; width:100%; overflow:hidden;}
+.index_top .hd{ position:absolute; width:100%; height:28px; line-height:28px; bottom:10px; z-index:1; text-align:center;}
+.index_top .hd li{ display:inline-block; width:8px; height:8px; -webkit-border-radius:7px; -moz-border-radius:7px; border-radius:7px; background:#fff; overflow:hidden; margin:0 3px;}
+.index_top .hd li.on{ background:#00a1d8;}
+.index-nav{ background:#fff; overflow:hidden; padding:10px 0; border-bottom:1px solid #f2f2f2;}
+.index-nav ul{ display:box; display:-webkit-box; display:-moz-box;}
+.index-nav li{ box-flex:1; -webkit-box-flex:1; -moz-box-flex:1; text-align:center;}
+.index-nav li a{ display:block; width:100%; height:100%; font-size:13px;}
+.index-nav li a i{ display:inline-block; width:36px; height:36px;}
+.index-nav li a i.ic-tb1{ background-position:-1px -250px;}
+.index-nav li a i.ic-tb2{ background-position:-39px -250px;}
+.index-nav li a i.ic-tb3{ background-position:-77px -250px;}
+.index-nav li a i.ic-tb4{ background-position:-115px -250px;}
+
+.index-list{ background:#fff; border-top:1px solid #f2f2f2;}
+.index-list li{ display:box; display:-webkit-box; display:-moz-box; line-height:22px; padding:5px 0; border-bottom:1px solid #f2f2f2;}
+.inl-left{ text-align:center; width:75px; font-size:15px; color:#333; border-right:1px dashed #e5e5e5; padding:10px 0;}
+.inl-right{ box-flex:1; -webkit-box-flex:1; -moz-box-flex:1; font-size:12px; color:#909090; padding:10px 0 10px 15px;}
+/* 服务 */
+.icon-syygh{ width:50px; height:50px; background-position:-138px -334px; position:absolute; left:15px; top:15px;}
+.icon-szndz{ background-position:0 -288px;}
+.icon-spdjh{ background-position:-46px -288px;}
+.icon-slydh{ background-position:-92px -288px;}
+.icon-sckbgd{ background-position:-138px -288px;}
+.icon-syyjs{ background-position:-184px -288px;}
+.icon-smyddc{ background-position:0 -334px;}
+.icon-sksjs{ background-position:-46px -334px;}
+.icon-sksfb{ background-position:-92px -334px;}
+.icon-noopen{ width:40px; height:40px; background-position:0 -385px; position:absolute; right:-0; top:0;}
+.serve-top li{ position:relative; background:#fff; border-bottom:1px solid #e1e1e1; padding:15px 15px 15px 80px; min-height:50px; line-height:22px;}
+.serve-list{ overflow:hidden;}
+.serve-list li { height:80px; display:block; width:50%; float:left; background:#fff; border-bottom:1px solid #e1e1e1; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; border-left:1px solid #e1e1e1; position:relative;}
+.serve-list li:nth-child(odd){ border-left:none;}
+.serve-list li a {display:table; width:100%; height:80px; color:#333; overflow:hidden; -webkit-box-sizing:border-box;-moz-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box; padding-left:10px; font-size:14px;}
+.serve-list li a div {display:table-cell; vertical-align:middle;}
+.serve-list li a div i {display:inline-block; width:45px; height:45px; line-height:45px; vertical-align:middle; margin-right:5px}
+.serve-list li a p {margin-top:5px;}
+.slword{ font-family:Arial, Helvetica, sans-serif;}
+.tithold{ display:inline-block; vertical-align:middle; line-height:17px;}
+
+/* 我的 */
+.nmemb-top{ width:100%; height:105px; background:url(../images/banner3.jpg) no-repeat; background-size:100% 100%; -webkit-background-size:100% 100%; -ms-background-size:100% 100%; text-align:center; font-size:14px; color:#fff; line-height:20px; padding-top:15px;}
+.mthead{ display:block; width:60px; height:60px; background:#fff; border-radius:50%; margin:0 auto 5px auto; padding:1px;}
+.mthead img{ width:60px; height:60px;}
+.nmemb-list{ display:block; background:#fff; padding-left:50px;}
+.nmemb-list li{ line-height:45px; border-top:1px solid #f2f2f2;}
+.nmemb-list li:first-child{ border-top:none;}
+.icon-mbtb1{ width:25px; height:25px; background-position:-41px -385px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.icon-mbtb2{ width:25px; height:25px; background-position:-67px -385px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.icon-mbtb3{ width:25px; height:25px; background-position:-93px -385px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.icon-mbtb4{ width:25px; height:25px; background-position:-119px -385px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.icon-mbtb5{ width:25px; height:25px; background-position:-145px -385px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.icon-mbtb6{ width:25px; height:25px; background-position:-171px -385px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.icon-mbtb7{ width:25px; height:25px; background-position:0 -426px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.icon-mbtb8{ width:25px; height:25px; background-position:-26px -426px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.icon-mbtb9{ width:25px; height:25px; background-position:-52px -426px; position:absolute; left:-35px; top:50%; margin-top:-13px;}
+.nmemb-list li a{ display:block; width:100%; line-height:45px; position:relative; color:#3d3d3d; font-size:14px;}
+.nmemb-list li a i i{ display:inline-block; width:18px; height:18px; line-height:18px; text-align:center; background:#fc522d; color:#fff; font-size:10px; border-radius:50%; position:absolute; left:15px; top:-3px;}
+/* 登录 */
+.login-div{}
+.login-div li{ padding:0 15px; margin-top:15px;}
+.logtext{ width:100%; height:40px; line-height:normal; padding:0 10px; border:1px solid #e1e1e1; border-radius:5px; background:#fff;}
+.logtext2{ width:55%; height:36px; line-height:normal; padding:0; border:none;}
+.login-div a.logbtn{ display:block; width:100%; height:40px; line-height:40px; text-align:center; background:#00A1D8;border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; font-size:16px; color:#fff;}
+.login-div a.loglink{ font-size:12px; color:#00a1d8;}
+.login-div a.yzmlink{ display:block; height:25px; line-height:25px; font-size:12px; color:#00a1d8; float:right; border-left:1px solid #e3e3e3; padding:0 2px 0 10px; margin-top:7px;}
+.regcheck{ color:#a6aaad; overflow:hidden;}
+.regcheck i{ display:inline-block; width:21px; height:21px; background-position:-162px -98px; vertical-align:middle; margin:0 5px 4px 0;}
+.regcheck i.checked{ background-position:-184px -98px;}
+/* 我的就诊人 */
+.jzcard-top{ background:#fff; position:relative; padding:10px 30px 10px 90px; min-height:60px; line-height:21px;}
+.jzcard-top .jtimg{ display:block; position:absolute; left:15px; top:10px;}
+.jzcard-list{ display:block;}
+.jzcard-list li{ line-height:45px; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; position:relative; font-size:14px; padding:0 30px 0 50px; margin-bottom:20px; background:#fff;}
+.jzcard-list li a{ display:block; width:100%; color:#3d3d3d;}
+.icon-mbtb7{ width:25px; height:25px; background-position:0 -426px; position:absolute; left:15px; top:50%; margin-top:-13px;}
+.addjzr{ width:100%; height:45px; line-height:45px; background:#fff; border-top:1px solid #e3e3e3; color:#00a1d8; text-align:center; position:fixed; left:0; bottom:0;}
+.addjzr i{ display:inline-block; width:24px; height:24px; background-position:-191px -225px; vertical-align:middle; margin:0 5px 5px 0;}
+/* 消息通知 */
+.icon-meaasge{ width:40px; height:40px; background-position:-189px -334px; position:absolute; left:15px; top:10px;}
+.messa-list{}
+.messa-list li{ background:#fff; padding:10px 15px 10px 70px; position:relative; min-height:40px; border-top:1px solid #f2f2f2;}
+.messa-list li:first-child{ border-top:none;}
+.ml-time{ position:absolute; right:15px; top:12px;}
+.ml-tit{ padding-right:50px; line-height:20px; color:#333;}
+.mlbot{ display:block; border-top:1px solid #f2f2f2; line-height:15px; padding-top:10px; padding-right:15px; margin-top:10px;}
+.mlbot a{ color:#00a1d8;}
+.ml-arrow{ display: block; width: 8px; height: 8px; border: solid #a6aaad; border-width: 2px 2px 0 0; -webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); position:absolute; right:17px; bottom:8px;}
+.ml-con-hide{ height:18px; overflow:hidden; padding-right:20px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.messa-list li .ahide{-webkit-transform: rotate(135deg); -moz-transform: rotate(135deg); -ms-transform: rotate(135deg); -o-transform: rotate(135deg); transform: rotate(135deg); bottom:13px;}

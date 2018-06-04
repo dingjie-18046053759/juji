@@ -1,0 +1,92 @@
+package com.fmcq.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+import com.fmcq.controller.UsersController;
+import com.fmcq.entity.Users;
+import com.fmcq.service.IUsersService;
+import com.fmcq.util.Comm;
+import com.fmcq.util.HibernateUtil;
+import com.fmcq.util.HuanXinUtil;
+import com.google.gson.Gson;
+
+@Service
+public class UsersServiceImpl implements IUsersService {
+	private static Log log = LogFactory.getLog(UsersController.class);
+
+	@Resource
+	private HibernateUtil util;
+	
+	/**
+	 * 根据环信ID获取用户信息
+	 * @param hxid
+	 * @return
+	 */
+	@Override
+	public String findUserInfoByHxid(String hxid){
+		log.info("findUserInfoByHxid start");
+		
+		hxid = hxid.replace(HuanXinUtil.HXQZ, "");
+		
+		Users users = this.util.get(Users.class, Integer.valueOf(hxid));
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("name", users.getUsernumber());
+		String url = "";
+		if(users.getHeadportrait() != null && !"".equals(users.getHeadportrait())){
+			url = Comm.THIS_URL+users.getHeadportrait();
+		}
+		map.put("headportrait", url);
+		
+		Gson g = new Gson();
+		String json = g.toJson(map);
+		log.info(json);
+		log.info("findUserInfoByHxid end");
+		return json;
+	}
+	
+	/**
+	 * 获取用户信息
+	 * @param uid
+	 * @return
+	 */
+	@Override
+	public Users findUser(String uid){
+		log.info("findUser start");
+		Users users = this.util.get(Users.class, Integer.valueOf(uid));
+		log.info("findUser end");
+		return users;
+	}
+	
+	/**
+	 * 根据电话号码获取用户
+	 * @param tel
+	 * @return
+	 */
+	@Override
+	public Users findUsersByPhone(String tel){
+		log.info("findUsersByPhone start");
+		String hql = "from Users where phone = '"+tel+"'";
+		List<Users> list = this.util.queryHQL(hql, false);
+		Users users = null;
+		if(list != null && list.size() > 0){
+			users = list.get(0);
+		}
+		log.info("findUsersByPhone end");
+		return users;
+	}
+
+	@Override
+	public String updateUsers(Users user) {
+		this.util.update(user);
+		return null;
+	}
+}

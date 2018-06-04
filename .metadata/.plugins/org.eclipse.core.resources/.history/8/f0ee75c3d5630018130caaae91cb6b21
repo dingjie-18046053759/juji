@@ -1,0 +1,24 @@
+package com.fmcq.util;
+
+import javax.annotation.Resource;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import com.fmcq.entity.Client;
+import com.fmcq.entity.DtuInfo;
+import com.fmcq.service.IClientService;
+
+public class Job2Demo {
+	@Resource
+	private IClientService clientService;
+	 /**  
+     * 业务逻辑处理  
+     */  
+    public void sayHello() {
+    	String url = "http://api.cellocation.com:81/cell/?mcc=460&mnc=0&lac=22815&ci=12582&output=xml";
+    	String result = HttpRequestUtil.HttpRequest(url);
+    	System.out.println("result等于=="+result);
+    }  
+}

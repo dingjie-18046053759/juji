@@ -1,0 +1,483 @@
+package com.fmcq.util;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.springframework.stereotype.Component;
+
+/**
+ * @category Hibernate操作工具类
+ */
+@Component
+public class HibernateUtil {
+	private final static Log log = LogFactory.getLog(HibernateUtil.class);
+
+	@Resource(name = "sessionFactory")
+	private SessionFactory factory;
+
+	/**
+	 * @return获取会话工厂对象
+	 */
+	public SessionFactory getFactory() {
+		return factory;
+	}
+
+	/**
+	 * @return返回会话连接对象
+	 */
+	public Session getSession() {
+		try {
+			return factory.getCurrentSession();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * @param obj
+	 * @return添加数据的方法，返回添加数据主键的值
+	 */
+	public Serializable save(Object obj) {
+		Serializable resu = 0;
+		Session session = getSession();
+		//执行添加操作
+		resu = session.save(obj);
+		return resu;
+	}
+
+	/**
+	 * @param obj
+	 * @return修改数据的方法
+	 */
+	public boolean update(Object obj) {
+		boolean resu = false;
+		Session session = getSession();
+		session.update(obj);
+		resu = true;
+		return resu;
+	}
+
+	/**
+	 * @param hql语句如
+	 *            ：delete User where userid=?
+	 * @param pras
+	 *            HQL语句中参数的值
+	 * @return 执行批量更新或删除，返回更新的记录数
+	 */
+	public int updateBatch(String hql, Object... pras) {
+		int resu = 0;
+		Session session = getSession();
+		//执行添加操作
+		Query query = session.createQuery(hql);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		log.info("Update Log:" + hql + "参数:" + pras);
+		resu = query.executeUpdate();
+		return resu;
+	}
+
+	/**
+	 * @param obj
+	 * @return删除数据
+	 */
+	public boolean delete(Object obj) {
+		boolean resu = false;
+		Session session = getSession();
+		//执行添加操作
+		session.delete(obj);
+		resu = true;
+		return resu;
+	}
+
+	public <T> T get(Class cla, Serializable id) {
+		T obj = null;
+		Session session = getSession();
+		//执行添加操作
+		obj = (T) session.get(cla, id);
+		return obj;
+	}
+
+	/**
+	 * @param <T>集合泛型
+	 * @param hql语句
+	 * @param isCach参数是否缓存数据
+	 *            ，真为缓存，假不缓存
+	 * @param pras参数
+	 * @return使用HQL查询返回一条及以上数据
+	 */
+	public <T> List<T> queryHQL(String hql, Boolean isCach, Object... pras) {
+		List<T> list = new ArrayList<T>();
+		Session session = getSession();
+		Query query = session.createQuery(hql);
+		//设置是否需要将数据保存到缓存中
+		query.setCacheable(isCach);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		list = query.list();
+		return list;
+	}
+
+	/**
+	 * @param hql
+	 * @param isCach参数是否缓存数据
+	 *            ，真为缓存，假不缓存
+	 * @param page
+	 * @param size
+	 * @param pras
+	 * @return使用HQL分页查询数据
+	 */
+	public <T> List<T> queryHQLByPage(String hql, Boolean isCach, int page, int size, Object... pras) {
+		List<T> list = new ArrayList<T>();
+		Session session = getSession();
+		Query query = session.createQuery(hql);
+		query.setCacheable(isCach);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		//开始记录的行数
+		query.setFirstResult((page - 1) * size);
+		//每页获取的记录数
+		query.setMaxResults(size);
+		list = query.list();
+		return list;
+	}
+
+	/**
+	 * @param <T>
+	 * @param hql
+	 * @param pras根据参数使用HQL查询返回单条数据
+	 */
+	public <T> T queryUnique(String hql, Object... pras) {
+		T obj = null;
+		Session session = getSession();
+		Query query = session.createQuery(hql);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		//返回单条数据
+		obj = (T) query.uniqueResult();
+		return obj;
+	}
+
+	/**
+	 * @param hql
+	 * @param pras
+	 * @return查询返回数据记录个数
+	 */
+	public Long getCount(String hql, Object... pras) {
+		Long count = Long.valueOf("0");
+		Session session = getSession();
+		Query query = session.createQuery(hql);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		//返回一行一列的数据
+		//count=(Long)query.list().iterator().next();
+		count = (Long) query.list().get(0);
+		return count;
+	}
+
+	/**
+	 * @param <T>
+	 * @param dc
+	 * @return应用于离线组合条件查询
+	 */
+	public <T> List<T> queryByDetached(DetachedCriteria dc) {
+		List<T> list = new ArrayList<T>();
+		Session session = getSession();
+		Criteria c = dc.getExecutableCriteria(session);
+		list = c.list();
+		return list;
+	}
+
+	/**
+	 * @param <T>
+	 * @param cla
+	 * @param sql
+	 * @param pras
+	 * @return使用SQL查询数据
+	 */
+	public <T> List<T> queryBySQL(Class cla, String sql, Boolean isCach, Object... pras) {
+		List<T> list = new ArrayList<T>();
+		Session session = getSession();
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setCacheable(isCach);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		list = query.addEntity(cla).list();
+		return list;
+	}
+
+	/**
+	 * @param cla
+	 * @param sql
+	 * @param isCach是否缓存
+	 * @param page
+	 * @param size
+	 * @param pras
+	 * @return使用SQL语句分页查询数据
+	 */
+	public <T> List<T> queryBySQLForPage(Class cla, String sql, Boolean isCach, int page, int size, Object... pras) {
+		List<T> list = new ArrayList<T>();
+		Session session = getSession();
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setCacheable(isCach);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		//开始记录的行数
+		query.setFirstResult((page - 1) * size);
+		//每页获取的记录数
+		query.setMaxResults(size);
+		list = query.addEntity(cla).list();
+		return list;
+	}
+
+	/**
+	 * @param <T>
+	 * @param named
+	 * @param isCach
+	 * @param pras
+	 * @return根据命名方式查询数据
+	 */
+	public <T> List<T> queryNamedQuery(String named, Boolean isCach, Object... pras) {
+		List<T> list = new ArrayList<T>();
+		Session session = getSession();
+		Query query = session.getNamedQuery(named);
+		//设置是否需要将数据保存到缓存中
+		query.setCacheable(isCach);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		list = query.list();
+		return list;
+	}
+
+	/**
+	 * @param <T>
+	 * @param named
+	 * @param page
+	 * @param size
+	 * @param pras
+	 * @return根据命名方式查询数据，分页获取
+	 */
+	public <T> List<T> queryNamedQueryByPage(String named, int page, int size, Object... pras) {
+		List<T> list = new ArrayList<T>();
+		Session session = getSession();
+		Query query = session.getNamedQuery(named);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		//开始记录的行数
+		query.setFirstResult((page - 1) * size);
+		//每页获取的记录数
+		query.setMaxResults(size);
+		list = query.list();
+		return list;
+	}
+
+	/**
+	 * @param <T>
+	 * @param named
+	 * @param isCach
+	 * @param pras
+	 * @return根据命名方式查询，使用MAP传参数
+	 */
+	public <T> List<T> queryNamedQuery(String named, Boolean isCach, Map<String, Object> pras) {
+		List<T> list = new ArrayList<T>();
+		Session session = getSession();
+		Query query = session.getNamedQuery(named);
+		//设置是否需要将数据保存到缓存中
+		query.setCacheable(isCach);
+		//判断是否有参数
+		if (pras != null) {
+			for (String key : pras.keySet()) {
+				query.setString(key, pras.get(key).toString());
+			}
+		}
+		list = query.list();
+		return list;
+	}
+	
+	/**
+	 * @param sql
+	 * @param pras
+	 * @return查询返回数据记录个数
+	 */
+	public Long getCountBySql(String sql,Object... pras){
+		Long count=Long.valueOf("0");
+		Session session=getSession();
+			SQLQuery query = session.createSQLQuery(sql);
+			//判断是否有参数
+			if (pras != null) {
+				for (int i = 0; i < pras.length; i++) {
+					query.setString(i, pras[i].toString());
+				}
+			}
+			//返回一行一列的数据
+			//count=(Long)query.list().iterator().next();
+			count=Long.valueOf(String.valueOf(query.list().get(0)));
+		return count;
+	}
+	
+	/**
+	 * @param sql
+	 * @param isCach是否缓存
+	 * @param pras
+	 * @return
+	 */
+	public List<Object[]> queryBySQL(String sql, Boolean isCach, Object...pras){
+		List<Object[]> list=new ArrayList<Object[]>();
+		Session session=getSession();
+		SQLQuery query= session.createSQLQuery(sql);
+		query.setCacheable(isCach);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		list=query.list();	
+		return list;
+	}
+	
+	/**
+	 * @param cla
+	 * @param sql
+	 * @param isCach是否缓存
+	 * @param page
+	 * @param size
+	 * @param pras
+	 * @return使用SQL语句分页查询数据
+	 */
+	public List<Object[]> queryBySQLForPage(String sql,Boolean isCach,int page,int size,Object...pras){
+		List<Object[]> list=new ArrayList<Object[]>();
+		Session session=getSession();
+			SQLQuery query= session.createSQLQuery(sql);
+			query.setCacheable(isCach);
+			//判断是否有参数
+			if (pras != null) {
+				for (int i = 0; i < pras.length; i++) {
+					query.setString(i, pras[i].toString());
+				}
+			}
+			//开始记录的行数
+			query.setFirstResult((page-1)*size);
+			//每页获取的记录数
+			query.setMaxResults(size);
+			list=query.list();	
+		return list;
+	}
+	
+	/**
+	 * @param sql
+	 * @param pras
+	 * @return使用SQL语句分页查询数据
+	 */
+	public Object[] queryBySQL(String sql,Object...pras){
+		Object[] obj = null;
+		Session session=getSession();
+			SQLQuery query= session.createSQLQuery(sql);
+			query.setCacheable(false);
+			//判断是否有参数
+			if (pras != null) {
+				for (int i = 0; i < pras.length; i++) {
+					query.setString(i, pras[i].toString());
+				}
+			}
+			obj=(Object[]) query.uniqueResult();
+		return obj;
+	}
+	
+	/**
+	 * @param cla
+	 * @param sql
+	 * @param isCach
+	 * @param page
+	 * @param size
+	 * @param pras
+	 * @return 用于获取经纬度+doctorDetail的方法  
+	 */
+	public List<Object> queryBySQLForPageByddshow(Class cla, String sql,Boolean isCach,int page,int size,Object...pras){
+		List<Object> list=new ArrayList<Object>();
+		Session session=getSession();
+			SQLQuery query= session.createSQLQuery(sql);
+			query.setCacheable(isCach);
+			//判断是否有参数
+			if (pras != null) {
+				for (int i = 0; i < pras.length; i++) {
+					query.setString(i, pras[i].toString());
+				}
+			}
+			//开始记录的行数
+			query.setFirstResult((page-1)*size);
+			//每页获取的记录数
+			query.setMaxResults(size);
+			list=query.addEntity(cla).addScalar("latitude").addScalar("longitude").addScalar("statusVal").addScalar("dprstaVal").list();	
+		return list;
+	}
+
+	/**
+	 * 执行SQL语句
+	 * @param sql
+	 * @param isCach
+	 * @param pras
+	 * @return
+	 */
+	public Boolean executeBySql(String sql, Boolean isCach, Object...pras){
+		Session session = getSession();
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setCacheable(isCach);
+		//判断是否有参数
+		if (pras != null) {
+			for (int i = 0; i < pras.length; i++) {
+				query.setString(i, pras[i].toString());
+			}
+		}
+		int result = query.executeUpdate();
+		return result > 0;
+	}
+}

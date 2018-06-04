@@ -1,0 +1,27 @@
+/* 满意度调查 */
+.sat_top{ width:100%; text-align:center; background:#32b16c;}
+.sat_top img{ vertical-align:bottom; width:100%; max-width:640px;}
+.memb_list{ width:100%;}
+.memb_list li{ line-height:45px; overflow:hidden; position:relative; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; margin-top:10px; background:#fff; padding:0 15px 0 48px; color:#232323;}
+.memb_list li label{ display:block; width:18px; height:21px; position:absolute; left:15px; top:11px; background-position:-218px -98px;}
+.sradio{ color:#909090; margin-top:12px; overflow:hidden;}
+.sradio label{ display:inline-block; width:21px; height:21px; background-position:-116px -98px; vertical-align:middle; margin:0 5px 4px 0;}
+.sradio label.checked{ background-position:-139px -98px;}
+.sradio i{ color:#bfbfbf;}
+.scheckbox{ color:#909090; margin-top:12px; overflow:hidden;}
+.scheckbox label{ display:inline-block; width:21px; height:21px; background-position:-162px -98px; vertical-align:middle; margin:0 5px 4px 0;}
+.scheckbox label.checked{ background-position:-184px -98px;}
+.scheckbox i{ color:#bfbfbf;}
+.satihold{ width:100%; padding-bottom:30px;}
+.satisfy_box{ background:#fff; margin-top:10px; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; padding-left:4%;}
+.saty_ques{ font-size:15px; color:#5b5b5b; line-height:23px; padding:8px 4% 8px 0; word-break:break-all;}
+.saty_answ{ padding:4px 4% 10px 0; border-top:1px solid #e1e1e1;}
+.saty_tit{ font-size:15px; color:#5b5b5b; line-height:23px; padding-top:5px;}
+.awnbor{ border-top:none;}
+.answtexa{ border:1px solid #00A1D8; background:#fff; display:block; width:100%; height:100px; box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; padding:5px 3%; border-radius:7px; -webkit-border-radius:7px; overflow:auto; font-size:15px;}
+.satin_top{ width:100%; text-align:center; background:#8bd2d6;}
+.satin_top img{ width:100%; max-width:640px; vertical-align:bottom;}
+.satin_wel{ width:84%; margin:15px auto; background:#fff; border:1px solid #e1e1e1; border-radius:5px; -webkit-border-radius:5px; font-size:15px; color:#5b5b5b; padding:10px 3%; line-height:23px;}
+.sat_succ{ padding:0 10%; text-align:center; font-size:15px; color:#5b5b5b; line-height:23px;}
+.sat_succ img{ width:50%; max-width:400px; margin:50px 0 15px 0;}
+.nosatfy{ background:url(../images/nosatfy.png) center 30px no-repeat; background-size:110px 90px; -webkit-background-size:110px 90px; padding:130px 3% 0 3%; text-align:center; line-height:30px; color:#909090;}

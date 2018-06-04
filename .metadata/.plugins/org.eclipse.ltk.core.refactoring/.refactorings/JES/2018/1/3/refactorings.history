@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.fmcq.util.TimeTask&apos; to &apos;TimedTask&apos;&#x0D;&#x0A;- Original project: &apos;JES&apos;&#x0D;&#x0A;- Original element: &apos;com.fmcq.util.TimeTask&apos;&#x0D;&#x0A;- Renamed element: &apos;com.fmcq.util.TimedTask&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;TimeTask&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;com.fmcq.util{TimeTask.java[TimeTask" matchStrategy="1" name="TimedTask" qualified="false" references="true" similarDeclarations="false" stamp="1516021419515" textual="false" version="1.0"/>
+</session>

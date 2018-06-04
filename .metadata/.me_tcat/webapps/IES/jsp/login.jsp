@@ -1,0 +1,116 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+	<!--<![endif]-->
+
+	<head>
+		<meta charset="utf-8" />
+		<title>登录</title>
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+		<meta content="" name="description" />
+		<meta content="" name="author" />
+		<meta name="format-detection" content="telephone=no">
+		<link href="<%=basePath%>/css/login.css" rel="stylesheet" type="text/css" />
+		<script src="<%=basePath%>/js/jquery2.1.1.min.js"></script>
+
+		<script type="text/javascript">
+	    	function funLogin(){
+	   		  	$.ajax({
+	   				url : "<%=basePath%>/login/login.do",
+	   			    async : false,
+	   			    type : "post",
+	   			    data : $("#form").serialize(),
+	   			 	dataType : "json",
+	   			 	success : function(data) {
+	   			      	if(data.code == 0){
+	   			      		android.Login(data.users.account, data.users.id, "j"+data.users.id);
+	   				    } else {
+	   				    	alert(data.msg);
+	   				    }
+	   				}
+	   		  	});
+	    	}
+	    	
+	    	function findYzm(tel){
+	    		$.ajax({
+	   				url : "<%=basePath%>/login/findYzm.do",
+	   			    async : false,
+	   			    type : "post",
+	   			    data : "tel="+tel,
+	   			 	dataType : "json",
+	   			 	success : function(data) {
+	   			      	if(data.code == "1"){
+	   			      		alert(data.msg);
+	   				    }
+	   				}
+	   		  	});
+	    	}
+	    	
+	    	var wait=180;
+			function time() {
+	  			if (wait == 0) {
+	  				$("#yzm").removeAttr("disabled");
+	      			$("#yzm").html("获取验证码");
+	      			wait = 180;
+	  			} else {
+	  				$("#yzm").attr("disabled","disabled");
+	      			$("#yzm").html("重新发送(" + wait + ")");
+	     			wait--;
+	      			setTimeout(function() {
+	          			time()
+		      		},1000);
+		  		}
+			}
+			function funYzm(){
+				var account =$("#account").val();
+				if(account==null || account == "" || account.length <= 0){
+					alert("请先填写正确的手机号码！");
+				}else{
+					time();
+					findYzm(account); 
+				}
+			}
+	    </script>
+	</head>
+	<body>
+		<form id="form">
+		<div class="login">
+			<div class="login-bg">
+				<div class="bg-top">
+					<img src="<%=basePath%>/images/logo.png" class="logo" />
+				</div>
+				<div class="bg-bottom"></div>
+			</div>
+			<div class="login-box">
+				<div class="login-input">
+					<i class="iconfont">&#xe72c;</i>
+					<input type="text" id="account" name="account" placeholder="请输手机号" />
+				</div>
+				<div class="login-input">
+					<i class="iconfont">&#xe618;</i>
+					<input type="text" id="pass" name="pass" placeholder="手机验证码" />
+					<button id="yzm" class="right-btn" onclick="funYzm()">获取验证码</button>
+				</div>
+				<button class="sublime-btn" onclick="funLogin()">登录</button>
+			</div>
+		</div>
+		</form>
+	</body>
+	<script>
+		$('.rember-box .opera .switch').on('touchend',function(){
+			if($(this).hasClass('active')){
+				$(this).removeClass('active');
+			}
+			else{
+				$(this).addClass('active');
+			}
+		});
+	</script>
+</html>

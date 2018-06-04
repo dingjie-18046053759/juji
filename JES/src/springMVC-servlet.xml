@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd  
+	http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+	<!-- 注解扫描包 -->
+	<context:component-scan base-package="com.fmcq.controller" />
+	<mvc:annotation-driven/>
+	
+	<!-- 开启注解
+	<mvc:annotation-driven >
+	    <mvc:message-converters register-defaults="true">
+	      <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	        <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+	      </bean>
+	    </mvc:message-converters>
+  	</mvc:annotation-driven>
+ 	-->
+ 	
+	<!-- 静态资源的访问 
+	<mvc:resources location="/image/" mapping="/image/**"/>  
+	<mvc:resources location="/js/" mapping="/js/**"/> 
+	<mvc:resources location="/css/" mapping="/css/**"/> 
+	<mvc:resources location="/uploadFile/" mapping="/uploadFile/**"/> 
+	<mvc:resources location="/skin/" mapping="/skin/**"/>
+	 --> 
+	  <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.fmcq.interceptor.ServletApiInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>	
+			<mvc:exclude-mapping path="/"/>
+			<mvc:exclude-mapping path="/valid/login.do"/>
+			<mvc:exclude-mapping path="/valid/create.do"/>
+			<mvc:exclude-mapping path="/test/test.do"/>
+			<bean class="com.fmcq.interceptor.PowerInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<!-- 返回JSON模版 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 定义视图解析器 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		  <property name="defaultEncoding" value="utf-8" />
+	      <property name="maxUploadSize" value="10485760000" />
+	      <property name="maxInMemorySize" value="40960" />
+	</bean>
+	<!-- 定时器配置 -->
+	<!-- 扫描触发类的包 -->
+	
+	<!--<context:component-scan base-package="test.demo" />
+	<context:component-scan base-package="com.fmcq.job" />
+	<task:annotation-driven/>-->
+	
+</beans>
